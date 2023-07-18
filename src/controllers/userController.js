@@ -22,6 +22,15 @@ const createUtilisateur = async (req, res) => {
     }
 };
 
+const getAllUtilisateurs = async (req, res) => {
+    try {
+        const utilisateurs = await Utilisateur.find();
+        res.json({ utilisateurs });
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs', error });
+    }
+}
+
 // Fonction pour récupérer les informations d'un utilisateur
 const getUtilisateur = async (req, res) => {
     try {
@@ -96,6 +105,7 @@ const login = async (req, res) => {
 
 module.exports = {
     createUtilisateur,
+    getAllUtilisateurs,
     getUtilisateur,
     updateUtilisateur,
     deleteUser,

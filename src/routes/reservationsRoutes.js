@@ -3,10 +3,10 @@ const router = express.Router();
 const reservationController = require('../controllers/reservationController');
 
 // Route pour créer une nouvelle réservation
-router.post('/', reservationController.createReservation);
+router.post('', reservationController.createReservation);
 
 // Route pour récupérer toutes les réservations
-router.get('/', reservationController.getReservation);
+router.get('', reservationController.getReservation);
 
 // Route pour récupérer une réservation pour un jour
 router.get('/:date', reservationController.getReservationByDay);
