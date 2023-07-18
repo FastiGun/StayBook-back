@@ -24,7 +24,7 @@ app.use((err, req, res, next) => {
 });
 
 // Démarrage du serveur
-app.listen(3000, () => {
-  console.log('Serveur en écoute sur le port 3000');
+app.listen(3001, () => {
+  console.log('Serveur en écoute sur le port 3001');
 });
 
