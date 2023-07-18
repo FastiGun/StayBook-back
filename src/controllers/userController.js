@@ -1,4 +1,5 @@
 const Utilisateur = require('../models/userModel');
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 // eslint-disable-next-line no-undef
