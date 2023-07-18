@@ -6,10 +6,13 @@ const reservationController = require('../controllers/reservationController');
 router.post('', reservationController.createReservation);
 
 // Route pour récupérer toutes les réservations
-router.get('', reservationController.getReservation);
+router.get('', reservationController.getAllReservation);
+
+// Route pour récupérer une réservation
+router.get('/:id', reservationController.getReservation);
 
 // Route pour récupérer une réservation pour un jour
-router.get('/:date', reservationController.getReservationByDay);
+router.get('/date/:date', reservationController.getReservationByDay);
 
 // Route pour récupérer une réservation pour une plage de dates
 router.get('/:dateArrivee/:dateDepart', reservationController.getReservationByDates);

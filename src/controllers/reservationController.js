@@ -50,6 +50,15 @@ const getReservation = async (req, res) => {
   }
 };
 
+const getAllReservation = async (req, res) => {
+  try {
+    const reservations = await Reservation.find();
+    res.json({ reservations });
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de la récupération des réservations : ', error });
+  }
+}
+
 // Fonction pour récupérer une réservation par ses dates d'arrivée et de départ
 const getReservationByDates = async (req, res) => {
     try {
@@ -123,6 +132,7 @@ const deleteReservation = async (req, res) => {
 
 module.exports = {
   createReservation,
+  getAllReservation,
   getReservation,
   getReservationByDates,
   getReservationByDay,
