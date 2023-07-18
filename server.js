@@ -2,9 +2,10 @@ const express = require('express');
 const userRoutes = require('./src/routes/userRoutes');
 const reservationRoutes = require('./src/routes/reservationsRoutes');
 require('dotenv').config();
-
+const connectDB = require('./src/config/db');
 
 const app = express();
+connectDB();
 
 // Middleware pour parser le corps des requêtes en JSON
 app.use(express.json());
