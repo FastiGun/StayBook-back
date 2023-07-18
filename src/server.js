@@ -1,13 +1,26 @@
 const express = require('express');
-const app = express();
-const port = 3000;
+const userRoutes = require('./routes/userRoutes');
+const reservationRoutes = require('./routes/reservationRoutes');
 
+const app = express();
+
+// Middleware pour parser le corps des requêtes en JSON
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+// Routes pour les utilisateurs
+app.use('/api/users', userRoutes);
+
+// Routes pour les réservations
+app.use('/api/reservations', reservationRoutes);
+
+// Middleware d'erreur pour gérer les erreurs
+app.use((err, req, res) => {
+  console.error(err);
+  res.status(500).json({ message: 'Erreur serveur à la requête : ', req});
 });
 
-app.listen(port, () => {
-    console.log(`Je tourne ici : http://localhost:${port}`);
+// Démarrage du serveur
+app.listen(3000, () => {
+  console.log('Serveur en écoute sur le port 3000');
 });
+

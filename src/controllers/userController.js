@@ -52,9 +52,22 @@ const updateUtilisateur = async (req, res) => {
     }
 }
 
+const deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const utilisateur = await Utilisateur.findByIdAndDelete(userId);
+        if (!utilisateur) {
+            return res.status(404).json({ message: 'Utilisateur introuvable' });
+        }
+        res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la suppression de l\'utilisateur', error });
+    }
+}
 
 module.exports = {
     createUtilisateur,
     getUtilisateur,
     updateUtilisateur,
+    deleteUser
 };
