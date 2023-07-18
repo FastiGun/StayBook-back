@@ -3,12 +3,15 @@ const app = express();
 const userRoutes = require('./src/routes/userRoutes');
 const reservationRoutes = require('./src/routes/reservationsRoutes');
 require('dotenv').config();
+const cors = require('cors');
 const connectDB = require('./src/config/db');
 
 connectDB();
 
 // Middleware pour parser le corps des requêtes en JSON
 app.use(express.json());
+
+app.use(cors());
 
 // Routes pour les utilisateurs
 app.use('/api/users', userRoutes);
