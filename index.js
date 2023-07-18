@@ -17,7 +17,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/reservations', reservationRoutes);
 
 // Middleware d'erreur pour gérer les erreurs
-app.use((err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ message: 'Erreur serveur à la requête : ', req});
 });
