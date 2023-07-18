@@ -1,4 +1,8 @@
 const Utilisateur = require('../models/userModel');
+const jwt = require('jsonwebtoken');
+
+// eslint-disable-next-line no-undef
+const jwtSecret = process.env.SECRET_KEY_JWT;
 
 // Fonction pour créer un nouvel utilisateur
 const createUtilisateur = async (req, res) => {
@@ -65,9 +69,35 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const login = async (req, res) => {
+    try {
+      // Vérification des informations d'identification de l'utilisateur
+      const { email, password } = req.body;
+      const user = await Utilisateur.findOne({ email });
+  
+      if (!user) {
+        return res.status(401).json({ message: 'Email invalide' });
+      }
+  
+      // Vérification du mot de passe
+      const isMatch = await user.comparePassword(password);
+      if (!isMatch) {
+        return res.status(401).json({ message: 'Mot de passe incorrect' });
+      }
+  
+      // Génération du token JWT
+      const token = jwt.sign({ userId: user._id }, jwtSecret, { expiresIn: '24h' });
+  
+      res.json({ token });
+    } catch (error) {
+      res.status(500).json({ message: 'Erreur lors de la connexion', error });
+    }
+  };
+
 module.exports = {
     createUtilisateur,
     getUtilisateur,
     updateUtilisateur,
-    deleteUser
+    deleteUser,
+    login
 };

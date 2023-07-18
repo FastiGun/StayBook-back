@@ -1,6 +1,8 @@
 const express = require('express');
-const userRoutes = require('./routes/userRoutes');
-const reservationRoutes = require('./routes/reservationRoutes');
+const userRoutes = require('./src/routes/userRoutes');
+const reservationRoutes = require('./src/routes/reservationsRoutes');
+require('dotenv').config();
+
 
 const app = express();
 
