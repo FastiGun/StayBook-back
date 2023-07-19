@@ -6,19 +6,25 @@ const createReservation = async (req, res) => {
     const { nomLocataire, prenomLocataire, dateArrivee, dateDepart, nombrePersonne, dureeLocation } = req.body;
 
     const existingReservation = await Reservation.findOne({
-        $or: [
-          {
-            dateArrivee: { $gte: dateArrivee, $lte: dateDepart },
-          },
-          {
-            dateDepart: { $gte: dateArrivee, $lte: dateDepart },
-          },
-        ],
-      });
-  
-      if (existingReservation) {
-        return res.status(409).json({ message: 'Il y a déjà une réservation pour ces dates' });
-      }
+      $or: [
+        {
+          $and: [
+            { dateArrivee: { $lt: dateDepart } },
+            { dateDepart: { $gt: dateArrivee } }
+          ]
+        },
+        {
+          $and: [
+            { dateArrivee: { $eq: dateDepart } },
+            { dateDepart: { $eq: dateArrivee } }
+          ]
+        }
+      ]
+    });
+    
+    if (existingReservation) {
+      return res.status(409).json({ message: 'Il y a déjà une réservation pour ces dates' });
+    }
 
     const reservation = new Reservation({
       nomLocataire,
