@@ -10,11 +10,11 @@ const reservationModel = new mongoose.Schema({
     required: true,
   },
   dateArrivee: {
-    type: Date,
+    type: String,
     required: true,
   },
   dateDepart: {
-    type: Date,
+    type: String,
     required: true,
   },
   nombrePersonne: {
