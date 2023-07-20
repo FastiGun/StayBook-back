@@ -7,30 +7,29 @@ const createReservation = async (req, res) => {
   try {
     const { nomLocataire, prenomLocataire, dateArrivee, dateDepart, nombrePersonne } = req.body;
 
-    const existingReservation = await Reservation.findOne({
-      $or: [
-        {
-          $and: [
-            { dateArrivee: { $lt: dateDepart } },
-            { dateDepart: { $gt: dateArrivee } }
-          ]
-        },
-        {
-          $and: [
-            { dateArrivee: { $eq: dateDepart } },
-            { dateDepart: { $eq: dateArrivee } }
-          ]
-        }
-      ]
-    });
-    
-    if (existingReservation) {
-      return res.status(409).json({ message: 'Il y a déjà une réservation pour ces dates' });
-    }
+    const existingReservations = await Reservation.find();
 
     const formattedDateArrivee = parse(dateArrivee, 'dd/MM/yyyy', new Date());
     const formattedDateDepart = parse(dateDepart, 'dd/MM/yyyy', new Date());
 
+    console.log(dateArrivee, formattedDateArrivee, dateDepart, formattedDateDepart);
+
+    for (const reservation of existingReservations) {
+      const reservationArrivee = parse(reservation.dateArrivee, 'dd/MM/yyyy', new Date());
+      const reservationDepart = parse(reservation.dateDepart, 'dd/MM/yyyy', new Date());
+
+      console.log(reservationArrivee, reservationDepart);
+
+      // Vérification s'il y a déjà une réservation pour ces dates
+      if (
+        (formattedDateArrivee >= reservationArrivee && formattedDateArrivee < reservationDepart) ||
+        (formattedDateDepart > reservationArrivee && formattedDateDepart <= reservationDepart) ||
+        (formattedDateArrivee <= reservationArrivee && formattedDateDepart >= reservationDepart)
+      ) {
+        return res.status(409).json({ message: 'Il y a déjà une réservation pour ces dates' });
+      }
+    }
+    
     if (isNaN(formattedDateArrivee.getTime()) || isNaN(formattedDateDepart.getTime())) {
       return res.status(400).json({ message: 'Les dates fournies sont invalides' });
     }
