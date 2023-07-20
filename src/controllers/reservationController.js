@@ -12,13 +12,9 @@ const createReservation = async (req, res) => {
     const formattedDateArrivee = parse(dateArrivee, 'dd/MM/yyyy', new Date());
     const formattedDateDepart = parse(dateDepart, 'dd/MM/yyyy', new Date());
 
-    console.log(dateArrivee, formattedDateArrivee, dateDepart, formattedDateDepart);
-
     for (const reservation of existingReservations) {
       const reservationArrivee = parse(reservation.dateArrivee, 'dd/MM/yyyy', new Date());
       const reservationDepart = parse(reservation.dateDepart, 'dd/MM/yyyy', new Date());
-
-      console.log(reservationArrivee, reservationDepart);
 
       // Vérification s'il y a déjà une réservation pour ces dates
       if (
@@ -29,7 +25,7 @@ const createReservation = async (req, res) => {
         return res.status(409).json({ message: 'Il y a déjà une réservation pour ces dates' });
       }
     }
-    
+
     if (isNaN(formattedDateArrivee.getTime()) || isNaN(formattedDateDepart.getTime())) {
       return res.status(400).json({ message: 'Les dates fournies sont invalides' });
     }

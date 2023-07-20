@@ -104,11 +104,34 @@ const login = async (req, res) => {
     }
   };
 
+  const verify = (req, res) => {
+    try {
+      const { token } = req.body;
+  
+      if (!token) {
+        return res.status(400).json({ message: 'Le token n\'a pas été fourni' });
+      }
+  
+      // Vérifier la validité du token en utilisant la clé secrète utilisée lors de la création du token
+      jwt.verify(token, jwtSecret, (err, decodedToken) => {
+        if (err) {
+          return res.status(401).json({ message: 'Le token est invalide ou a expiré' });
+        }
+  
+        return res.status(200).json({ message: 'Le token est valide', decodedToken });
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Une erreur s\'est produite lors de la vérification du token' });
+    }
+  };
+
 module.exports = {
     createUtilisateur,
     getAllUtilisateurs,
     getUtilisateur,
     updateUtilisateur,
     deleteUser,
-    login
+    login,
+    verify
 };

@@ -6,6 +6,8 @@ const authMiddleware = require('../middlewares/authMiddleware');
 // Route pour la connexion d'un user
 router.post('/login', userController.login);
 
+router.post('/verify', userController.verify);
+
 router.use(authMiddleware);
 
 // Route pour créer un nouvel utilisateur
