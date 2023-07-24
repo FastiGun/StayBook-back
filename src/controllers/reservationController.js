@@ -10,6 +10,7 @@ const createReservation = async (req, res) => {
       dateArrivee,
       dateDepart,
       nombrePersonne,
+      montantTotal,
     } = req.body;
 
     const existingReservations = await Reservation.find();
@@ -172,6 +173,7 @@ const updateReservation = async (req, res) => {
       dateDepart,
       nombrePersonne,
       dureeLocation,
+      montantTotal,
     } = req.body;
 
     const reservation = await Reservation.findByIdAndUpdate(reservationId, {
@@ -181,6 +183,7 @@ const updateReservation = async (req, res) => {
       dateDepart,
       nombrePersonne,
       dureeLocation,
+      montantTotal,
     });
 
     if (!reservation) {
