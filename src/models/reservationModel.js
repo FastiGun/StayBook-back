@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const reservationModel = new mongoose.Schema({
   prenomLocataire: {
@@ -25,8 +25,12 @@ const reservationModel = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  montantTotal: {
+    type: Number,
+    required: true,
+  },
 });
 
-const Reservation = mongoose.model('Reservation', reservationModel);
+const Reservation = mongoose.model("Reservation", reservationModel);
 
 module.exports = Reservation;
